@@ -61,13 +61,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\ColourValue.cs" />
     <Compile Include="Data\FpMarker.cs" />
     <Compile Include="Data\Logger.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Features\FlashPointController.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Patches\FlashpointDef.cs" />
-    <Compile Include="Patches\StarmapSystemRenderer.cs" />
+    <Compile Include="Patches\SGNavigationScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

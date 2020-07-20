@@ -21,14 +21,24 @@ namespace ColourfulFlashPoints
 
         public bool useHmAnimation(string fpId)
         {
-            foreach(FpMarker marker in Main.settings.markers)
+            FpMarker marker = findMarker(fpId);
+            if (marker != null)
             {
-                if(fpId.StartsWith(marker.flashpointPrefix))
-                {
-                    return marker.useHmAnimation;
-                }
+                return marker.useHmAnimation;
             }
             return false;
+        }
+
+        public FpMarker findMarker(string fpId)
+        {
+            foreach (FpMarker marker in Main.settings.markers)
+            {
+                if (fpId.StartsWith(marker.flashpointPrefix))
+                {
+                    return marker;
+                }
+            }
+            return (FpMarker)null;
         }
 
     }
