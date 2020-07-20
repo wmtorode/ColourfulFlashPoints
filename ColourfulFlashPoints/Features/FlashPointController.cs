@@ -41,5 +41,30 @@ namespace ColourfulFlashPoints
             return (FpMarker)null;
         }
 
+        private string getFpPrefix(string contractId)
+        {
+            return contractId.TrimStart('c', '_');
+        }
+
+        public bool useHmContractElement(string contractId)
+        {
+            FpMarker marker = findMarker(getFpPrefix(contractId));
+            if (marker != null)
+            {
+                return marker.useHmAnimation;
+            }
+            return false;
+        }
+
+        public bool contractHasFpMarker(string contractId)
+        {
+            FpMarker marker = findMarker(getFpPrefix(contractId));
+            if (marker != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

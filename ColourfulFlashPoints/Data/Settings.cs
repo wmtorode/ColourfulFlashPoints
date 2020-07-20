@@ -10,5 +10,6 @@ namespace ColourfulFlashPoints.Data
     {
         public bool debug = false;
         public List<FpMarker> markers = new List<FpMarker>();
+        public List<ContractMarker> contractMarkers = new List<ContractMarker>();
     }
 }
