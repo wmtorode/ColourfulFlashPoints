@@ -41,6 +41,29 @@ namespace ColourfulFlashPoints
             return (FpMarker)null;
         }
 
+        public FpMarker findMarkerForContract(string contractId)
+        {
+            FpMarker marker = findMarker(getFpPrefix(contractId));
+            if (marker != null)
+            {
+                if (marker.autoDetectContracts)
+                {
+                    return marker;
+                }
+            }
+            foreach(FpMarker fpMarker in Main.settings.markers)
+            {
+                foreach(string cId in fpMarker.contractIds)
+                {
+                    if (cId == contractId)
+                    {
+                        return fpMarker;
+                    }
+                }
+            }
+            return (FpMarker)null;
+        }
+
         private string getFpPrefix(string contractId)
         {
             return contractId.TrimStart('c', '_');
@@ -48,7 +71,7 @@ namespace ColourfulFlashPoints
 
         public bool useHmContractElement(string contractId)
         {
-            FpMarker marker = findMarker(getFpPrefix(contractId));
+            FpMarker marker = findMarkerForContract(contractId);
             if (marker != null)
             {
                 return marker.useHmAnimation;
@@ -58,7 +81,7 @@ namespace ColourfulFlashPoints
 
         public bool contractHasFpMarker(string contractId)
         {
-            FpMarker marker = findMarker(getFpPrefix(contractId));
+            FpMarker marker = findMarkerForContract(contractId);
             if (marker != null)
             {
                 return true;
