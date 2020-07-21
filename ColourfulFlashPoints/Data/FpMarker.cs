@@ -9,6 +9,8 @@ namespace ColourfulFlashPoints.Data
 {
     class FpMarker
     {
+        public const string ContractFillerName = "contractFiller";
+
         public bool useHmAnimation = false;
         public string flashpointPrefix = "";
         public bool swapColour = false;
@@ -28,7 +30,7 @@ namespace ColourfulFlashPoints.Data
         public Color GetColor(string componentName, float currentAlpha)
         {
             Color color = innerCircle.GetColor();
-            if (!useOnlyInner)
+            if (!useOnlyInner || componentName == ContractFillerName)
             {
                 switch (componentName)
                 {
@@ -48,6 +50,13 @@ namespace ColourfulFlashPoints.Data
                     case "outerCirclePulsingFill":
                         color = outerPulsingFill.GetColor();
                         break;
+                    case ContractFillerName:
+                        //special case, contract cards always get their own alpha
+                        if (useContractColourOverride)
+                        {
+                            color = contractColour.GetColor();
+                        }
+                        return color;
                     default:
                         color = innerCircle.GetColor();
                         break;

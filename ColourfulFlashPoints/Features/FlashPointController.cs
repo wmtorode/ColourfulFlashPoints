@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ColourfulFlashPoints.Data;
+using UnityEngine;
 
 namespace ColourfulFlashPoints
 {
@@ -62,6 +63,22 @@ namespace ColourfulFlashPoints
                 }
             }
             return (FpMarker)null;
+        }
+
+        public bool getFlashpointContractColour(string contractId, out Color color)
+        {
+            color = new Color();
+            FpMarker marker = findMarkerForContract(contractId);
+            if (marker != null)
+            {
+                if(marker.swapColour)
+                {
+                    color = marker.GetColor(FpMarker.ContractFillerName, 1.0f);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private string getFpPrefix(string contractId)

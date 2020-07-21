@@ -10,6 +10,7 @@ using BattleTech.Framework;
 using BattleTech.Data;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace ColourfulFlashPoints.Patches
 {
@@ -24,6 +25,7 @@ namespace ColourfulFlashPoints.Patches
         {
             lastInstance.PopulateContract(contract, (Action)null);
         }
+
         public static bool Prefix(SGContractsWidget __instance, Contract contract, DataManager ___dm, RectTransform ___ContractListParent, HBSRadioSet ___ContractListRadioSet, List<SGContractsListItem> ___listedContracts)
         {
             lastInstance = __instance;
@@ -51,6 +53,37 @@ namespace ColourfulFlashPoints.Patches
                 component.OnContractSelected.AddListener(new UnityAction<Contract>(onContractSelected));
                 component.AddToRadioSet(___ContractListRadioSet);
                 ___listedContracts.Add(component);
+                GameObject fillObject = gameObject.transform.findChild("ENABLED-bg-fill").gameObject;
+                if (fillObject != null)
+                {
+                    Image filler = fillObject.GetComponent<Image>();
+                    Color colour;
+                    if (flashpointContract || campaignContract)
+                    {
+                        if (FlashPointController.Instance.getFlashpointContractColour(contract.Override.ID, out colour))
+                        {
+                            filler.color = colour;
+                        }
+                    }
+                    else
+                    {
+                        // leave priority & restoration campaign missions alone
+                        if(num == 0 && !flag)
+                        {
+                            if (ContractCardController.Instance.getContractColour(contract, out colour))
+                            {
+                                filler.color = colour;
+                                //Main.modLog.LogMessage($"Colour: {filler.color.r}, {filler.color.g}, {filler.color.b}");
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    Main.modLog.LogMessage("Failed to find fill object!");
+                }
+
             }
             return false;
         }
