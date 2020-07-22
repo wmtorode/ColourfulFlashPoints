@@ -65,9 +65,13 @@ namespace ColourfulFlashPoints
             return (FpMarker)null;
         }
 
-        public bool getFlashpointContractColour(string contractId, out Color color)
+        public bool getFlashpointContractColour(string contractId, bool HmColour, out Color color)
         {
-            color = new Color();
+            color = new Color(0.521569f, 0.858824f, 0.964706f, 0.062745f);
+            if (HmColour)
+            {
+                color = new Color(0.368627f, 0.792157f, 0.635294f, 0.250980f);
+            }
             FpMarker marker = findMarkerForContract(contractId);
             if (marker != null)
             {
@@ -78,7 +82,7 @@ namespace ColourfulFlashPoints
                 }
             }
 
-            return false;
+            return true;
         }
 
         private string getFpPrefix(string contractId)

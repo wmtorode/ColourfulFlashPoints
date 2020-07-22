@@ -13,7 +13,7 @@ namespace ColourfulFlashPoints.Patches
 {
 
     [HarmonyPatch(typeof(SGNavigationScreen), "GetSystemFlashpoint", typeof(Flashpoint))]
-    class SGNavigationScreen_
+    class SGNavigationScreen_GetSystemFlashpoint
     {
         static void Postfix(SGNavigationScreen __instance, Flashpoint flashpoint, ref StarmapSystemRenderer __result)
         {

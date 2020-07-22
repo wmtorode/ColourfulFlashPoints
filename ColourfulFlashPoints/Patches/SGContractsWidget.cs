@@ -15,52 +15,26 @@ using UnityEngine.UI;
 namespace ColourfulFlashPoints.Patches
 {
 
-    [HarmonyPatch(typeof(SGContractsWidget), "AddContract", typeof(Contract))]
-    class SGContractsWidget_AddContract
+    [HarmonyPatch(typeof(SGContractsWidget), "ListContracts", typeof(List<Contract>), typeof(ContractDisplayStyle))]
+    class SGContractsWidget_ListContracts
     {
-        private static SGContractsWidget lastInstance;
-        private static PropertyInfo pInfo = AccessTools.Property(typeof(SGContractsWidget), "Sim");
-
-        private static void onContractSelected(Contract contract)
+        static void Postfix(List<SGContractsListItem> ___listedContracts)
         {
-            lastInstance.PopulateContract(contract, (Action)null);
-        }
-
-        public static bool Prefix(SGContractsWidget __instance, Contract contract, DataManager ___dm, RectTransform ___ContractListParent, HBSRadioSet ___ContractListRadioSet, List<SGContractsListItem> ___listedContracts)
-        {
-            lastInstance = __instance;
-            SimGameState sim = (SimGameState)pInfo.GetValue(__instance);
-            string id = "uixPrfPanl_SIM_contract-Element";
-            int num = contract.Override.contractDisplayStyle == ContractDisplayStyle.BaseCampaignStory ? 1 : 0;
-            bool flag = contract.Override.contractDisplayStyle == ContractDisplayStyle.BaseCampaignRestoration;
-            bool flashpointContract = contract.IsFlashpointContract;
-            bool campaignContract = contract.IsFlashpointCampaignContract;
-            if (num != 0)
-                id = "uixPrfPanl_SIM_contractStory-Element";
-            else if (flag)
-                id = "uixPrfPanl_SIM_contractStory-Element";
-            else if (flashpointContract)
-                id = "uixPrfPanl_SIM_contractFlashpoint-Element";
-            else if (campaignContract)
-                id = "uixPrfPanl_SIM_contractMiniCampaign-Element";
-            GameObject gameObject = ___dm.PooledInstantiate(id, BattleTechResourceType.UIModulePrefabs, new Vector3?(), new Quaternion?(), (Transform)___ContractListParent);
-            SGContractsListItem component = gameObject.GetComponent<SGContractsListItem>();
-            if ((bool)((UnityEngine.Object)component))
+            Main.modLog.LogMessage("ListContracts Called");
+            foreach(SGContractsListItem listedContract in ___listedContracts)
             {
-                gameObject.transform.localScale = Vector3.one;
-                component.Init(contract, sim);
-                component.OnContractSelected.RemoveAllListeners();
-                component.OnContractSelected.AddListener(new UnityAction<Contract>(onContractSelected));
-                component.AddToRadioSet(___ContractListRadioSet);
-                ___listedContracts.Add(component);
-                GameObject fillObject = gameObject.transform.findChild("ENABLED-bg-fill").gameObject;
+                GameObject fillObject = listedContract.gameObject.transform.findChild("ENABLED-bg-fill").gameObject;
                 if (fillObject != null)
                 {
+                    bool priorityContract = listedContract.Contract.Override.contractDisplayStyle == ContractDisplayStyle.BaseCampaignStory;
+                    bool campaignContract = listedContract.Contract.Override.contractDisplayStyle == ContractDisplayStyle.BaseCampaignRestoration;
+                    bool flashpointContract = listedContract.Contract.IsFlashpointContract;
+                    bool fpCampaignContract = listedContract.Contract.IsFlashpointCampaignContract;
                     Image filler = fillObject.GetComponent<Image>();
                     Color colour;
-                    if (flashpointContract || campaignContract)
+                    if (flashpointContract || fpCampaignContract)
                     {
-                        if (FlashPointController.Instance.getFlashpointContractColour(contract.Override.ID, out colour))
+                        if (FlashPointController.Instance.getFlashpointContractColour(listedContract.Contract.Override.ID, fpCampaignContract, out colour))
                         {
                             filler.color = colour;
                         }
@@ -68,12 +42,13 @@ namespace ColourfulFlashPoints.Patches
                     else
                     {
                         // leave priority & restoration campaign missions alone
-                        if(num == 0 && !flag)
+                        if (!priorityContract && !campaignContract)
                         {
-                            if (ContractCardController.Instance.getContractColour(contract, out colour))
+                            if (ContractCardController.Instance.getContractColour(listedContract.Contract, out colour))
                             {
+                                Main.modLog.LogMessage($"Before Colour: {filler.color.r}, {filler.color.g}, {filler.color.b}");
                                 filler.color = colour;
-                                //Main.modLog.LogMessage($"Colour: {filler.color.r}, {filler.color.g}, {filler.color.b}");
+                                Main.modLog.LogMessage($"After Colour: {filler.color.r}, {filler.color.g}, {filler.color.b}");
                             }
                         }
                     }
@@ -83,9 +58,8 @@ namespace ColourfulFlashPoints.Patches
                 {
                     Main.modLog.LogMessage("Failed to find fill object!");
                 }
-
             }
-            return false;
         }
     }
+
 }

@@ -12,6 +12,7 @@ namespace ColourfulFlashPoints
     class ContractCardController
     {
         private static ContractCardController instance;
+        private Color Fallback = new Color(0.149020f, 0.152941f, 0.168627f, 1.0f);
         public static ContractCardController Instance
         {
             get
@@ -23,7 +24,8 @@ namespace ColourfulFlashPoints
 
         public bool getContractColour(Contract contract, out Color color)
         {
-            color = new Color();
+            // Fallback colour, same as game default
+            color = new Color(0.149020f, 0.152941f, 0.168627f, 1.0f);
             foreach (ContractMarker marker in Main.settings.contractMarkers)
             {
                 if (marker.EvaluateMarker(contract))
@@ -33,7 +35,7 @@ namespace ColourfulFlashPoints
                 }
             }
 
-            return false;
+            return true;
         }
 
     }
