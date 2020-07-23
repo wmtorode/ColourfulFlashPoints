@@ -15,13 +15,14 @@ using UnityEngine.UI;
 namespace ColourfulFlashPoints.Patches
 {
 
-    [HarmonyPatch(typeof(SGContractsWidget), "ListContracts", typeof(List<Contract>), typeof(ContractDisplayStyle))]
+    [HarmonyPatch(typeof(SGContractsWidget), "ListContracts", typeof(List<Contract>), typeof(ContractDisplayStyle?))]
     class SGContractsWidget_ListContracts
     {
-        static void Postfix(List<SGContractsListItem> ___listedContracts)
+        static void Postfix(SGContractsWidget __instance, List<SGContractsListItem> ___listedContracts, List<Contract> contracts, ContractDisplayStyle? initialSelection = null)
         {
             Main.modLog.LogMessage("ListContracts Called");
-            foreach(SGContractsListItem listedContract in ___listedContracts)
+            ContractCardController.Instance.lastContractSet = ___listedContracts;
+            foreach (SGContractsListItem listedContract in ___listedContracts)
             {
                 GameObject fillObject = listedContract.gameObject.transform.findChild("ENABLED-bg-fill").gameObject;
                 if (fillObject != null)
@@ -60,6 +61,51 @@ namespace ColourfulFlashPoints.Patches
                 }
             }
         }
+        
     }
 
+    [HarmonyPatch(typeof(SGContractsWidget), "ClearContracts")]
+    class SGContractsWidget_ClearContracts
+    {
+        static void Prefix(List<SGContractsListItem> ___listedContracts)
+        {
+            Main.modLog.LogMessage($"ClearContracts Called");
+            foreach (SGContractsListItem listedContract in ___listedContracts)
+            {
+                GameObject fillObject = listedContract.gameObject.transform.findChild("ENABLED-bg-fill").gameObject;
+                if (fillObject != null)
+                {
+                    Image filler = fillObject.GetComponent<Image>();
+                    Main.modLog.LogMessage($"Before Pooling Colour: {filler.color.r}, {filler.color.g}, {filler.color.b}");
+                }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(SGContractsWidget), "Init", typeof(SimGameState), typeof(Action<bool>))]
+    class SGContractsWidget_Init
+    {
+        static void Postfix()
+        {
+            Main.modLog.LogMessage("Init Called");
+        }
+    }
+
+    [HarmonyPatch(typeof(SGContractsWidget), "PopulateContract", typeof(Contract), typeof(Action))]
+    class SGContractsWidget_PopulateContract
+    {
+        static void Postfix(List<SGContractsListItem> ___listedContracts)
+        {
+            Main.modLog.LogMessage("PopulateContract Called");
+        }
+    }
+
+    [HarmonyPatch(typeof(SGContractsWidget), "SetMode", typeof(SGContractsWidget.ScreenMode))]
+    class SGContractsWidget_SetMode
+    {
+        static void Postfix(SGContractsWidget.ScreenMode mode, List<SGContractsListItem> ___listedContracts)
+        {
+            Main.modLog.LogMessage($"SetMode Called: {mode}");
+        }
+    }
 }

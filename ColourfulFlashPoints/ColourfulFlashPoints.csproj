@@ -79,6 +79,7 @@
     <Compile Include="Patches\FlashpointDef.cs" />
     <Compile Include="Patches\SGContractsWidget.cs" />
     <Compile Include="Patches\SGNavigationScreen.cs" />
+    <Compile Include="Patches\SGRoomController_CmdCenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
