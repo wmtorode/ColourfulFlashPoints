@@ -113,6 +113,7 @@ example 2
 ```
 
 `useHmAnimation` - controls whether the Heavy Metal animation is used (true) or the standard one (false). 
+this will also affect the contract card used in the contract list screen.
 **Note: Heavy Metal DLC is not required to use the animation**
 
 `flashpointPrefix` - the prefix used to match this marker to a flashpoint based on its ID. any flashpoint whose ID 
