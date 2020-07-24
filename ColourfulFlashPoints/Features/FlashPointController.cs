@@ -81,7 +81,6 @@ namespace ColourfulFlashPoints
                     return true;
                 }
             }
-
             return true;
         }
 

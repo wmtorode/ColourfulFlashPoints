@@ -72,6 +72,7 @@
     <Compile Include="Data\Logger.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Features\ContractCardController.cs" />
+    <Compile Include="Features\ContractCardFixup.cs" />
     <Compile Include="Features\FlashPointController.cs" />
     <Compile Include="Features\TransformExtension.cs" />
     <Compile Include="Main.cs" />
@@ -79,7 +80,6 @@
     <Compile Include="Patches\FlashpointDef.cs" />
     <Compile Include="Patches\SGContractsWidget.cs" />
     <Compile Include="Patches\SGNavigationScreen.cs" />
-    <Compile Include="Patches\SGRoomController_CmdCenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
