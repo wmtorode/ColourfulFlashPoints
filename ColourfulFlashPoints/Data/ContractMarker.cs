@@ -14,7 +14,6 @@ namespace ColourfulFlashPoints.Data
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public EContractTargetType type = EContractTargetType.ContractType;
-        public string contractTypeTarget;
         public List<string> contractIds = new List<string>();
         public ColourValue colour = new ColourValue();
 
@@ -25,7 +24,7 @@ namespace ColourfulFlashPoints.Data
 
         private bool checkType(Contract contract)
         {
-            return contract.Override.ContractTypeValue.Name == contractTypeTarget;
+            return contractIds.Contains(contract.Override.ContractTypeValue.Name);
         }
 
         private bool checkContractId(Contract contract)

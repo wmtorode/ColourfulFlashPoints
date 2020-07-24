@@ -34,6 +34,8 @@ namespace ColourfulFlashPoints.Patches
                     Image filler = fillObject.GetComponent<Image>();
                     Color colour;
                     ContractCardFixup fixup = fillObject.GetComponent<ContractCardFixup>();
+
+                    // Add this fixup component to the card, otherwise on first initialzation after loading a save or after a battle, the colours will revert to deafult
                     if (fixup == null)
                     {
                         fixup = fillObject.AddComponent<ContractCardFixup>();
