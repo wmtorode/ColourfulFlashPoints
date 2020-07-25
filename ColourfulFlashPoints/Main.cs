@@ -19,6 +19,14 @@ namespace ColourfulFlashPoints
             modDir = modDirectory;
             modLog = new Logger(modDir, "ColourfulFlashpoints", true);
 
+            ReloadSettings();
+
+            var harmony = HarmonyInstance.Create("ca.jwolf.ColourfulFlashPoints");
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+        }
+
+        public static void ReloadSettings()
+        {
             try
             {
                 using (StreamReader reader = new StreamReader($"{modDir}/settings.json"))
@@ -33,9 +41,6 @@ namespace ColourfulFlashPoints
             {
                 modLog.LogException(ex);
             }
-
-            var harmony = HarmonyInstance.Create("ca.jwolf.ColourfulFlashPoints");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }
 }

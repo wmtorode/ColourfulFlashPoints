@@ -11,12 +11,16 @@ example:
 ```json
 {
   "debug" : true,
+  "enableSettingsHotReload" : false,
   "markers" : [],
   "contractMarkers": []
 }
 ```
 
 `debug` - true to turn additional debug logging on, false to turn it off
+
+`enableSettingsHotReload` - when true enable hot reloading of the settings while in game (press CTRL+ALT+X). if you
+are on the contract list or starmap screens, you will need to close the screen and open it again to see the affects
 
 `markers` : a list of `FpMarker` objects, these detail the colour changes to use for various flashpoints
 
