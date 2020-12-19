@@ -54,4 +54,40 @@ namespace ColourfulFlashPoints.Patches
             }
         }
     }
+
+    [HarmonyPatch(typeof(SGNavigationScreen), "ShowFlashpointSystems")]
+    class SGNavigationScreen_ShowFlashpointSystems
+    {
+        static void Postfix(SGNavigationScreen __instance, SimGameState ___simState)
+        {
+            foreach (MapMarker marker in Main.settings.mapMarkers.Values)
+            {
+                StarmapSystemRenderer systemRenderer = ___simState.Starmap.Screen.GetSystemRenderer(marker.systemName);
+                GameObject prefab =null;
+                if (marker.marker.useHmAnimation)
+                {
+                    systemRenderer.SetFlashpointMiniCampaign(true);
+                    prefab = systemRenderer.flashpointMiniCampaignLocal;
+                }
+                else
+                {
+                    systemRenderer.SetFlashpointAvailable(true);
+                    prefab = systemRenderer.flashpointActiveLocal;
+                }
+
+                if (marker.marker.swapColour)
+                {
+                    foreach (ParticleSystem componentsInChild in prefab.GetComponentsInChildren<ParticleSystem>())
+                    {
+                        //Main.modLog.LogMessage(" " + componentsInChild.name + ": pr");
+                        var main = componentsInChild.main;
+                        var colorGrad = main.startColor;
+                        Color color = marker.marker.GetColor(componentsInChild.name, colorGrad.colorMax.a);
+                        colorGrad.colorMax = color;
+                        main.startColor = colorGrad;
+                    }
+                }
+            }
+        }
+    }
 }

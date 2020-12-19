@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ColourfulFlashPoints.Data
 {
-    class ColourValue
+    public class ColourValue
     {
         public string Colour = "#FFFFFF";
         public float Alpha = 1.0f;

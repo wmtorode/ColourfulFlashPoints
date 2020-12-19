@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ColourfulFlashPoints.Data
 {
-    class FpMarker
+    public class FpMarker
     {
         public const string ContractFillerName = "contractFiller";
 

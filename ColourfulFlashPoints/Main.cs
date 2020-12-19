@@ -36,11 +36,20 @@ namespace ColourfulFlashPoints
                 }
 
             }
-
             catch (Exception ex)
             {
                 modLog.LogException(ex);
             }
+        }
+
+        public static void addMapMarker(MapMarker marker)
+        {
+            settings.mapMarkers[marker.systemName] = marker;
+        }
+
+        public static void clearMapMarkers()
+        {
+            settings.mapMarkers.Clear();
         }
     }
 }

@@ -70,6 +70,7 @@
     <Compile Include="Data\EContractTargetType.cs" />
     <Compile Include="Data\FpMarker.cs" />
     <Compile Include="Data\Logger.cs" />
+    <Compile Include="Data\MapMarker.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Features\ContractCardController.cs" />
     <Compile Include="Features\ContractCardFixup.cs" />
