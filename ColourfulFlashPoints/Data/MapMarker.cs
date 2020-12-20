@@ -5,6 +5,11 @@
         public string systemName;
         public FpMarker marker;
 
+        public MapMarker()
+        {
+            systemName = "";
+            marker = new FpMarker();
+        }
         public MapMarker(string system, FpMarker settings)
         {
             systemName = system;
