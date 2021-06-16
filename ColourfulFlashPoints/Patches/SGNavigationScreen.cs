@@ -72,7 +72,7 @@ namespace ColourfulFlashPoints.Patches
                 else
                 {
                     systemRenderer.SetFlashpointAvailable(true);
-                    prefab = systemRenderer.flashpointActiveLocal;
+                    prefab = systemRenderer.flashpointAvailableLocal;
                 }
 
                 if (marker.marker.swapColour)
