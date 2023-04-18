@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 using UnityEngine;
 
 namespace ColourfulFlashPoints.Data
@@ -13,16 +9,26 @@ namespace ColourfulFlashPoints.Data
         public float Alpha = 1.0f;
         public float I = 1.0f;
 
+        [JsonIgnore] 
+        private Color cachedColour;
+
+        [JsonIgnore] 
+        private bool colourSet = false;
+
 
         public Color GetColor()
         {
-            Color color;
-            ColorUtility.TryParseHtmlString(Colour, out color);
-            color.a = Alpha;
-            color.r *= I;
-            color.g *= I;
-            color.b *= I;
-            return color;
+            if (!colourSet)
+            {
+                ColorUtility.TryParseHtmlString(Colour, out cachedColour);
+                cachedColour.a = Alpha;
+                cachedColour.r *= I;
+                cachedColour.g *= I;
+                cachedColour.b *= I;
+                colourSet = true;
+            }
+            
+            return cachedColour;
         }
     }
 }

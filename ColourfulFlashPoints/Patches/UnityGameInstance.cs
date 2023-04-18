@@ -1,6 +1,4 @@
-﻿using System;
-using Harmony;
-using UnityEngine;
+﻿using UnityEngine;
 using BattleTech;
 
 namespace ColourfulFlashPoints.Patches

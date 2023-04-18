@@ -2,7 +2,6 @@
 using System.IO;
 using Newtonsoft.Json;
 using ColourfulFlashPoints.Data;
-using Harmony;
 using System.Reflection;
 
 namespace ColourfulFlashPoints
@@ -20,9 +19,8 @@ namespace ColourfulFlashPoints
             modLog = new Logger(modDir, "ColourfulFlashpoints", true);
 
             ReloadSettings();
-
-            var harmony = HarmonyInstance.Create("ca.jwolf.ColourfulFlashPoints");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
+            
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "ca.jwolf.ColourfulFlashPoints");
         }
 
         public static void ReloadSettings()

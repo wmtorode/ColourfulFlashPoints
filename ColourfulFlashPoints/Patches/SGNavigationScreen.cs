@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Harmony;
-using BattleTech;
+﻿using BattleTech;
 using BattleTech.UI;
 using UnityEngine;
 using ColourfulFlashPoints.Data;
@@ -58,11 +52,11 @@ namespace ColourfulFlashPoints.Patches
     [HarmonyPatch(typeof(SGNavigationScreen), "ShowFlashpointSystems")]
     class SGNavigationScreen_ShowFlashpointSystems
     {
-        static void Postfix(SGNavigationScreen __instance, SimGameState ___simState)
+        static void Postfix(SGNavigationScreen __instance)
         {
             foreach (MapMarker marker in Main.settings.mapMarkers.Values)
             {
-                StarmapSystemRenderer systemRenderer = ___simState.Starmap.Screen.GetSystemRenderer(marker.systemName);
+                StarmapSystemRenderer systemRenderer = __instance.simState.Starmap.Screen.GetSystemRenderer(marker.systemName);
                 GameObject prefab =null;
                 if (marker.marker.useHmAnimation)
                 {
@@ -79,7 +73,6 @@ namespace ColourfulFlashPoints.Patches
                 {
                     foreach (ParticleSystem componentsInChild in prefab.GetComponentsInChildren<ParticleSystem>())
                     {
-                        //Main.modLog.LogMessage(" " + componentsInChild.name + ": pr");
                         var main = componentsInChild.main;
                         var colorGrad = main.startColor;
                         Color color = marker.marker.GetColor(componentsInChild.name, colorGrad.colorMax.a);

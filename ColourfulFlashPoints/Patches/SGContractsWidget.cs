@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using Harmony;
+﻿using System.Collections.Generic;
 using BattleTech;
 using BattleTech.UI;
 using BattleTech.Framework;
-using BattleTech.Data;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace ColourfulFlashPoints.Patches
@@ -18,11 +11,11 @@ namespace ColourfulFlashPoints.Patches
     [HarmonyPatch(typeof(SGContractsWidget), "ListContracts", typeof(List<Contract>), typeof(ContractDisplayStyle?))]
     class SGContractsWidget_ListContracts
     {
-        static void Postfix(SGContractsWidget __instance, List<SGContractsListItem> ___listedContracts, List<Contract> contracts, ContractDisplayStyle? initialSelection = null)
+        static void Postfix(SGContractsWidget __instance, List<Contract> contracts, ContractDisplayStyle? initialSelection = null)
         {
             //Main.modLog.LogMessage("ListContracts Called");
-            ContractCardController.Instance.lastContractSet = ___listedContracts;
-            foreach (SGContractsListItem listedContract in ___listedContracts)
+            ContractCardController.Instance.lastContractSet = __instance.listedContracts;
+            foreach (SGContractsListItem listedContract in __instance.listedContracts)
             {
                 GameObject fillObject = listedContract.gameObject.transform.findChild("ENABLED-bg-fill").gameObject;
                 if (fillObject != null)
@@ -35,7 +28,8 @@ namespace ColourfulFlashPoints.Patches
                     Color colour;
                     ContractCardFixup fixup = fillObject.GetComponent<ContractCardFixup>();
 
-                    // Add this fixup component to the card, otherwise on first initialzation after loading a save or after a battle, the colours will revert to deafult
+                    // Add this fixup component to the card, otherwise on first initialization after loading a save or
+                    // after a battle, the colours will revert to default
                     if (fixup == null)
                     {
                         fixup = fillObject.AddComponent<ContractCardFixup>();
@@ -56,11 +50,9 @@ namespace ColourfulFlashPoints.Patches
                         {
                             if (ContractCardController.Instance.getContractColour(listedContract.Contract, out colour))
                             {
-                                //Main.modLog.LogMessage($"Before Colour: {filler.color.r}, {filler.color.g}, {filler.color.b}");
                                 filler.color = colour;
                                 fixup.setColour(colour);
                                 fixup.setUp(filler);
-                                //Main.modLog.LogMessage($"After Colour: {filler.color.r}, {filler.color.g}, {filler.color.b}");
                             }
                         }
                     }

@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Harmony;
-using BattleTech;
-
-using UnityEngine;
-using System.IO;
-
+﻿using BattleTech;
 
 namespace ColourfulFlashPoints.Patches
 {

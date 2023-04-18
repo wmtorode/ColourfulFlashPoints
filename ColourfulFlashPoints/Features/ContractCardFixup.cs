@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BattleTech;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace ColourfulFlashPoints
@@ -13,10 +7,12 @@ namespace ColourfulFlashPoints
     {
         private Color fixupColour;
         private Image bgsFill = null;
+        private bool bgsSet = false;
 
         public void setUp(Image bgFill)
         {
             bgsFill = bgFill;
+            bgsSet = true;
         }
 
         public void setColour(Color color)
@@ -26,7 +22,7 @@ namespace ColourfulFlashPoints
 
         void Update()
         {
-            if (bgsFill != null)
+            if (bgsSet)
             {
                 if (bgsFill.color != fixupColour)
                 {
